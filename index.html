@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VETRIX</title>
-
 <style>
 body {
   margin: 0;
   font-family: Arial;
   background: #000;
   color: #fff;
+  overflow-x: hidden;
 }
 
 /* TOPO */
@@ -20,6 +20,7 @@ body {
   font-size: 22px;
   font-weight: bold;
   color: #ff2a2a;
+  animation: slideInDown 0.5s;
 }
 
 /* TABS */
@@ -27,10 +28,13 @@ body {
   display: flex;
   gap: 10px;
   padding: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .tab {
   flex: 1;
+  max-width: 120px;
   text-align: center;
   padding: 10px;
   border-radius: 20px;
@@ -38,18 +42,32 @@ body {
   border: 1px solid #222;
   color: #aaa;
   cursor: pointer;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s;
+}
+
+.tab:hover {
+  transform: scale(1.05);
 }
 
 .tab.active {
   background: #1a0000;
   border: 1px solid red;
   color: red;
-  box-shadow: 0 0 10px red;
+  box-shadow: 0 0 15px red;
+  animation: pulse 1s infinite;
 }
 
 /* CONTEÚDO */
-.content { display: none; }
-.content.active { display: block; }
+.content { 
+  display: none; 
+  padding: 20px;
+  animation: fadeIn 0.5s;
+}
+
+.content.active { 
+  display: block; 
+}
 
 /* CARD */
 .card {
@@ -58,6 +76,7 @@ body {
   border-radius: 15px;
   background: #0a0a0a;
   border: 1px solid #111;
+  animation: slideUp 0.3s ease;
 }
 
 /* BOTÕES */
@@ -72,6 +91,11 @@ body {
   margin-top: 10px;
   box-shadow: 0 0 20px red;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
 }
 
 /* FPS */
@@ -83,48 +107,64 @@ body {
   border: 1px solid #333;
   border-radius: 10px;
   color: white;
+  transition: all 0.3s ease;
+}
+
+.fps button:hover {
+  transform: scale(1.1);
 }
 
 /* SWITCH */
 .switch {
   float: right;
-}
-
-.switch input { display: none; }
-
-.slider {
-  width: 40px;
-  height: 20px;
-  background: #333;
-  border-radius: 20px;
   position: relative;
   display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
-.slider::before {
-  content: "";
-  width: 18px;
-  height: 18px;
-  background: white;
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
   position: absolute;
-  top: 1px;
-  left: 1px;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #333;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
   border-radius: 50%;
-  transition: .3s;
 }
 
 input:checked + .slider {
-  background: red;
+  background-color: red;
 }
 
-input:checked + .slider::before {
-  transform: translateX(20px);
+input:checked + .slider:before {
+  transform: translateX(26px);
 }
 
 /* GRID */
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 10px;
   padding: 15px;
 }
@@ -135,12 +175,18 @@ input:checked + .slider::before {
   border-radius: 10px;
   border: 1px solid #333;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.player:hover {
+  transform: scale(1.05);
 }
 
 /* SELECIONADO */
 .player.active {
   border: 1px solid red;
   box-shadow: 0 0 10px red;
+  animation: pulse 1s infinite;
 }
 
 /* CARD SENSI */
@@ -149,7 +195,7 @@ input:checked + .slider::before {
   border-radius: 20px;
   border: 1px solid #222;
   overflow: hidden;
-  animation: fade 0.3s;
+  animation: fadeIn 0.3s;
 }
 
 .header-sensi {
@@ -165,6 +211,11 @@ input:checked + .slider::before {
   margin: 10px;
   border-radius: 10px;
   background: #050505;
+  transition: all 0.3s ease;
+}
+
+.item:hover {
+  background: #111;
 }
 
 .value {
@@ -182,18 +233,82 @@ input:checked + .slider::before {
   padding: 10px 20px;
   border-radius: 10px;
   display: none;
+  animation: slideUp 0.3s;
+  z-index: 9999;
 }
 
-/* ANIMAÇÃO */
-@keyframes fade {
-  from {opacity:0; transform: translateY(10px);}
-  to {opacity:1;}
+/* ANIMAÇÕES */
+@keyframes slideInDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+/* LOADER */
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+  margin: 20px auto;
+}
+.loader::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 5px solid #ff2a2a;
+  border-top-color: transparent;
+  animation: rotate 1s linear infinite reverse;
+}
+
+/* PROGRESS BAR */
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 20px 0;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+}
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ff2a2a, #ff5555);
+  width: 0;
+  transition: width 0.5s ease;
+  animation: pulse 1s infinite;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .tabs { gap: 5px; }
+  .tab { max-width: 100px; font-size: 14px; }
+  .grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+  .fps button { width: 45%; }
 }
 </style>
 </head>
 
 <body>
-
 <div class="topo">VETRIX</div>
 
 <div class="tabs">
@@ -255,7 +370,6 @@ input:checked + .slider::before {
 
 <!-- GERADOR -->
 <div id="gerador" class="content">
-
   <div class="grid">
     <div class="player" onclick="select(this)">PHZIN</div>
     <div class="player" onclick="select(this)">Two9</div>
@@ -272,11 +386,49 @@ input:checked + .slider::before {
 
 <script>
 function trocar(id, el){
+  // Remover active de todos os elementos
   document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  
+  // Adicionar active apenas ao elemento selecionado
+  document.getElementById(id).classList.add('active');
   el.classList.add('active');
+  
+  // Exibir loader apenas na aba "mira"
+  if (id === 'mira') {
+    showLoader();
+  }
+}
+
+function showLoader() {
+  // Remover qualquer loader existente
+  const existingLoader = document.querySelector('.loader');
+  if (existingLoader) existingLoader.remove();
+  
+  // Criar novo loader
+  const loader = document.createElement('div');
+  loader.className = 'loader';
+  document.querySelector('#mira').prepend(loader);
+  
+  // Criar barra de progresso
+  const progressBar = document.createElement('div');
+  progressBar.className = 'progress-bar';
+  progressBar.innerHTML = '<div class="progress"></div>';
+  document.querySelector('#mira').insertBefore(progressBar, loader.nextSibling);
+  
+  // Simular progresso
+  const progress = progressBar.querySelector('.progress');
+  let width = 0;
+  const interval = setInterval(() => {
+    if (width >= 100) {
+      clearInterval(interval);
+      loader.remove();
+      progressBar.remove();
+      return;
+    }
+    width += 5;
+    progress.style.width = width + '%';
+  }, 100);
 }
 
 function toast(msg){
@@ -314,7 +466,13 @@ function gerar(){
   `;
   document.getElementById("resultado").innerHTML = html;
 }
-</script>
 
+// Inicializar primeiro loader
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.tab')[0].click();
+  }, 1000);
+});
+</script>
 </body>
 </html>
