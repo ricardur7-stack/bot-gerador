@@ -3,476 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VETRIX</title>
+<title>VETRIX SENSI</title>
+
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   background: #000;
   color: #fff;
-  overflow-x: hidden;
-}
-
-/* TOPO */
-.topo {
   text-align: center;
-  padding: 20px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #ff2a2a;
-  animation: slideInDown 0.5s;
 }
 
-/* TABS */
+/* Título */
+.title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 40px;
+  background: linear-gradient(90deg, orange, red);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Botões de aba */
 .tabs {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
+  margin-top: 30px;
 }
 
-.tab {
-  flex: 1;
-  max-width: 120px;
-  text-align: center;
-  padding: 10px;
-  border-radius: 20px;
-  background: #0d0d0d;
-  border: 1px solid #222;
-  color: #aaa;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  animation: fadeIn 0.5s;
-}
-
-.tab:hover {
-  transform: scale(1.05);
-}
-
-.tab.active {
-  background: #1a0000;
-  border: 1px solid red;
-  color: red;
-  box-shadow: 0 0 15px red;
-  animation: pulse 1s infinite;
-}
-
-/* CONTEÚDO */
-.content { 
-  display: none; 
-  padding: 20px;
-  animation: fadeIn 0.5s;
-}
-
-.content.active { 
-  display: block; 
-}
-
-/* CARD */
-.card {
-  margin: 15px;
-  padding: 15px;
-  border-radius: 15px;
-  background: #0a0a0a;
-  border: 1px solid #111;
-  animation: slideUp 0.3s ease;
-}
-
-/* BOTÕES */
-.btn {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(45deg, red, #ff3b3b);
-  color: white;
-  font-weight: bold;
-  margin-top: 10px;
-  box-shadow: 0 0 20px red;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-}
-
-/* FPS */
-.fps button {
-  width: 30%;
-  padding: 10px;
-  margin: 5px;
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 10px;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.fps button:hover {
-  transform: scale(1.1);
-}
-
-/* SWITCH */
-.switch {
-  float: right;
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
-}
-
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #333;
-  transition: .4s;
-  border-radius: 34px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: red;
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  padding: 15px;
-}
-
-.player {
-  padding: 12px;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid #333;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.player:hover {
-  transform: scale(1.05);
-}
-
-/* SELECIONADO */
-.player.active {
-  border: 1px solid red;
-  box-shadow: 0 0 10px red;
-  animation: pulse 1s infinite;
-}
-
-/* CARD SENSI */
-.result-card {
-  margin: 15px;
-  border-radius: 20px;
-  border: 1px solid #222;
-  overflow: hidden;
-  animation: fadeIn 0.3s;
-}
-
-.header-sensi {
-  padding: 15px;
-  font-weight: bold;
-  background: linear-gradient(90deg, red, transparent);
-}
-
-.item {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 10px;
-  background: #050505;
-  transition: all 0.3s ease;
-}
-
-.item:hover {
-  background: #111;
-}
-
-.value {
-  color: #ff2a2a;
-  font-weight: bold;
-}
-
-/* TOAST */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: red;
+.tabs button {
   padding: 10px 20px;
+  margin: 5px;
+  border: none;
   border-radius: 10px;
+  background: #111;
+  color: orange;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  background: orange;
+  color: black;
+}
+
+/* Conteúdo */
+.content {
+  margin-top: 30px;
   display: none;
-  animation: slideUp 0.3s;
-  z-index: 9999;
 }
 
-/* ANIMAÇÕES */
-@keyframes slideInDown {
-  from { transform: translateY(-100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+.active-content {
+  display: block;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* Botão principal */
+.main-btn {
+  padding: 15px 50px;
+  border-radius: 15px;
+  border: none;
+  background: linear-gradient(135deg, orange, red);
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+/* Card */
+.card {
+  background: #111;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 15px;
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
-}
-
-/* LOADER */
-.loader {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  position: relative;
-  animation: rotate 1s linear infinite;
-  margin: 20px auto;
-}
-.loader::before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 5px solid #ff2a2a;
-  border-top-color: transparent;
-  animation: rotate 1s linear infinite reverse;
-}
-
-/* PROGRESS BAR */
-.progress-bar {
-  width: 100%;
-  height: 10px;
-  background: #333;
-  border-radius: 5px;
-  overflow: hidden;
-  margin: 20px 0;
-  box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
-}
-.progress {
-  height: 100%;
-  background: linear-gradient(90deg, #ff2a2a, #ff5555);
-  width: 0;
-  transition: width 0.5s ease;
-  animation: pulse 1s infinite;
-}
-
-/* RESPONSIVO */
-@media (max-width: 768px) {
-  .tabs { gap: 5px; }
-  .tab { max-width: 100px; font-size: 14px; }
-  .grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
-  .fps button { width: 45%; }
+/* Inputs */
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin: 5px;
 }
 </style>
 </head>
 
 <body>
-<div class="topo">VETRIX</div>
+
+<div class="title">VETRIX SENSI</div>
 
 <div class="tabs">
-  <div class="tab active" onclick="trocar('perf', this)">Performance</div>
-  <div class="tab" onclick="trocar('mira', this)">Mira</div>
-  <div class="tab" onclick="trocar('gerador', this)">Gerador</div>
+  <button onclick="openTab('home')" class="active">Home</button>
+  <button onclick="openTab('sensi')">Gerar Sensi</button>
+  <button onclick="openTab('config')">Config</button>
 </div>
 
-<!-- PERFORMANCE -->
-<div id="perf" class="content active">
+<!-- HOME -->
+<div id="home" class="content active-content">
   <div class="card">
-    <h3>Melhorar Ping</h3>
-    <button class="btn" onclick="toast('Ping otimizado')">ATIVAR</button>
-  </div>
-
-  <div class="card">
-    <h3>Aumentar FPS</h3>
-    <div class="fps">
-      <button onclick="toast('60 FPS')">60 FPS</button>
-      <button onclick="toast('120 FPS')">120 FPS</button>
-      <button onclick="toast('240 FPS')">240 FPS</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>Otimização</h3>
-    <button class="btn" onclick="toast('Sistema otimizado')">OTIMIZAR</button>
+    <h2>Bem-vindo</h2>
+    <p>"a evolução da sensi não tem limites"</p>
+    <button class="main-btn" onclick="openTab('sensi')">INICIAR</button>
   </div>
 </div>
 
-<!-- MIRA -->
-<div id="mira" class="content">
+<!-- SENSI -->
+<div id="sensi" class="content">
   <div class="card">
-    Calibrar Sensibilidade
-    <label class="switch">
-      <input type="checkbox" onchange="toast(this.checked ? 'Ativado' : 'Desativado')">
-      <span class="slider"></span>
-    </label>
-  </div>
+    <h2>Gerador de Sensibilidade</h2>
+    <button class="main-btn" onclick="gerarSensi()">GERAR</button>
 
-  <div class="card">
-    Reduzir Recuo
-    <label class="switch">
-      <input type="checkbox" onchange="toast(this.checked ? 'Ativado' : 'Desativado')">
-      <span class="slider"></span>
-    </label>
+    <p id="resultado"></p>
   </div>
-
-  <div class="card">
-    Aumentar Precisão
-    <label class="switch">
-      <input type="checkbox" onchange="toast(this.checked ? 'Ativado' : 'Desativado')">
-      <span class="slider"></span>
-    </label>
-  </div>
-
-  <button class="btn" onclick="toast('Ajustes aplicados')">APLICAR AJUSTES</button>
 </div>
 
-<!-- GERADOR -->
-<div id="gerador" class="content">
-  <div class="grid">
-    <div class="player" onclick="select(this)">PHZIN</div>
-    <div class="player" onclick="select(this)">Two9</div>
-    <div class="player" onclick="select(this)">Marechal</div>
-    <div class="player" onclick="select(this)">Freitas</div>
+<!-- CONFIG -->
+<div id="config" class="content">
+  <div class="card">
+    <h2>Configurações</h2>
+
+    <input type="number" id="dpi" placeholder="DPI">
+    <input type="number" id="fps" placeholder="FPS">
+
+    <br>
+
+    <button class="main-btn" onclick="aplicarConfig()">APLICAR</button>
+
+    <p id="status"></p>
   </div>
-
-  <button class="btn" onclick="gerar()">GERAR SENSI</button>
-
-  <div id="resultado"></div>
 </div>
-
-<div id="toast" class="toast"></div>
 
 <script>
-function trocar(id, el){
-  // Remover active de todos os elementos
-  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  
-  // Adicionar active apenas ao elemento selecionado
-  document.getElementById(id).classList.add('active');
-  el.classList.add('active');
-  
-  // Exibir loader apenas na aba "mira"
-  if (id === 'mira') {
-    showLoader();
-  }
+function openTab(tab) {
+  document.querySelectorAll('.content').forEach(el => el.classList.remove('active-content'));
+  document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+
+  document.getElementById(tab).classList.add('active-content');
+  event.target.classList.add('active');
 }
 
-function showLoader() {
-  // Remover qualquer loader existente
-  const existingLoader = document.querySelector('.loader');
-  if (existingLoader) existingLoader.remove();
-  
-  // Criar novo loader
-  const loader = document.createElement('div');
-  loader.className = 'loader';
-  document.querySelector('#mira').prepend(loader);
-  
-  // Criar barra de progresso
-  const progressBar = document.createElement('div');
-  progressBar.className = 'progress-bar';
-  progressBar.innerHTML = '<div class="progress"></div>';
-  document.querySelector('#mira').insertBefore(progressBar, loader.nextSibling);
-  
-  // Simular progresso
-  const progress = progressBar.querySelector('.progress');
-  let width = 0;
-  const interval = setInterval(() => {
-    if (width >= 100) {
-      clearInterval(interval);
-      loader.remove();
-      progressBar.remove();
-      return;
-    }
-    width += 5;
-    progress.style.width = width + '%';
-  }, 100);
-}
+// GERAR SENSI
+function gerarSensi() {
+  let sensi = {
+    geral: Math.floor(Math.random() * 100),
+    redDot: Math.floor(Math.random() * 100),
+    x2: Math.floor(Math.random() * 100),
+    x4: Math.floor(Math.random() * 100),
+    awm: Math.floor(Math.random() * 100)
+  };
 
-function toast(msg){
-  let t = document.getElementById("toast");
-  t.innerText = msg;
-  t.style.display = "block";
-  setTimeout(()=> t.style.display="none", 2000);
-}
-
-let player = "PHZIN";
-
-function select(el){
-  document.querySelectorAll('.player').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  player = el.innerText;
-  toast("Selecionado: " + player);
-}
-
-function rand(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
-}
-
-function gerar(){
-  let html = `
-  <div class="result-card">
-    <div class="header-sensi">🔥 Sensibilidade de ${player}</div>
-
-    <div class="item"><span>Geral</span><span class="value">${rand(180,200)}</span></div>
-    <div class="item"><span>Red Dot</span><span class="value">${rand(150,180)}</span></div>
-    <div class="item"><span>Mira 2x</span><span class="value">${rand(110,140)}</span></div>
-    <div class="item"><span>Mira 4x</span><span class="value">${rand(110,140)}</span></div>
-    <div class="item"><span>AWM / Sniper</span><span class="value">${rand(150,180)}</span></div>
-    <div class="item"><span>Olhadinha</span><span class="value">${rand(140,170)}</span></div>
-  </div>
+  document.getElementById("resultado").innerHTML = `
+    Geral: ${sensi.geral} <br>
+    Red Dot: ${sensi.redDot} <br>
+    2x: ${sensi.x2} <br>
+    4x: ${sensi.x4} <br>
+    AWM: ${sensi.awm}
   `;
-  document.getElementById("resultado").innerHTML = html;
 }
 
-// Inicializar primeiro loader
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => {
-    document.querySelectorAll('.tab')[0].click();
-  }, 1000);
-});
+// CONFIG
+function aplicarConfig() {
+  let dpi = document.getElementById("dpi").value;
+  let fps = document.getElementById("fps").value;
+
+  document.getElementById("status").innerText =
+    "Config aplicada! DPI: " + dpi + " | FPS: " + fps;
+}
 </script>
+
 </body>
 </html>
