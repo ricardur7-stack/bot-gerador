@@ -9,26 +9,26 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-* {
+*{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:-apple-system, Arial;
+  font-family:-apple-system,Arial;
 }
 
-body {
+body{
   background:#000;
   color:#fff;
-  animation:fadeIn 0.6s ease;
+  animation:fadeIn 0.5s ease;
 }
 
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1;}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;}
 }
 
 /* HEADER */
-header {
+header{
   text-align:center;
   padding:20px;
   font-size:26px;
@@ -37,47 +37,40 @@ header {
   animation:glow 2s infinite alternate;
 }
 
-@keyframes glow {
-  from { text-shadow:0 0 10px red; }
-  to { text-shadow:0 0 25px red; }
+@keyframes glow{
+  from{ text-shadow:0 0 10px red; }
+  to{ text-shadow:0 0 25px red; }
 }
 
-/* SWIPE TABS */
-.tabs-wrapper {
+/* SWIPE */
+.tabs-wrapper{
   overflow-x:auto;
   padding:10px;
 }
 
-.tabs-wrapper::-webkit-scrollbar {
-  display:none;
-}
-
-.tabs {
+.tabs{
   display:flex;
   gap:10px;
-  min-width:100%;
 }
 
-.tab {
+.tab{
   min-width:140px;
-  flex-shrink:0;
   padding:12px;
   border-radius:20px;
   background:#0a0a0a;
   border:1px solid #111;
   text-align:center;
   color:#777;
-  transition:0.3s;
 }
 
-.tab.active {
+.tab.active{
   color:#ff2a2a;
   border:1px solid red;
   box-shadow:0 0 20px rgba(255,0,0,0.5);
 }
 
-/* CARDS */
-.card {
+/* CARD */
+.card{
   margin:15px;
   padding:20px;
   border-radius:20px;
@@ -86,25 +79,17 @@ header {
   transition:0.3s;
 }
 
-.card:hover {
+.card:hover{
   transform:scale(1.03);
-  box-shadow:0 0 30px rgba(255,0,0,0.25);
+  box-shadow:0 0 25px rgba(255,0,0,0.3);
 }
 
 /* TEXT */
-.title {
-  font-size:18px;
-  margin-bottom:5px;
-}
-
-.desc {
-  color:#888;
-  font-size:14px;
-  margin-bottom:15px;
-}
+.title{font-size:18px;margin-bottom:5px;}
+.desc{color:#888;font-size:14px;margin-bottom:10px;}
 
 /* BUTTON */
-.btn {
+.btn{
   width:100%;
   padding:16px;
   border-radius:15px;
@@ -113,22 +98,14 @@ header {
   font-size:16px;
   background:linear-gradient(90deg,#ff0000,#660000);
   color:#fff;
-  box-shadow:0 0 25px rgba(255,0,0,0.6);
-  cursor:pointer;
-  transition:0.15s;
+  box-shadow:0 0 20px rgba(255,0,0,0.6);
 }
 
-.btn:active {
-  transform:scale(0.93);
-}
+.btn:active{transform:scale(0.93);}
 
 /* FPS */
-.fps {
-  display:flex;
-  gap:10px;
-}
-
-.fps div {
+.fps{display:flex;gap:10px;}
+.fps div{
   flex:1;
   padding:15px;
   border-radius:15px;
@@ -136,18 +113,44 @@ header {
   text-align:center;
   color:#aaa;
 }
-
-.fps div.active {
+.fps div.active{
   border:1px solid red;
   color:red;
-  box-shadow:0 0 20px red;
+  box-shadow:0 0 15px red;
+}
+
+/* PROGRESS */
+.progress-bar{
+  width:100%;
+  height:8px;
+  background:#222;
+  border-radius:10px;
+  margin:10px 0;
+  overflow:hidden;
+}
+
+.progress{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#ff0000,#ff6600);
+}
+
+/* STATUS */
+.status{
+  color:#ff6600;
+  font-size:14px;
+  margin-bottom:10px;
+}
+
+/* SUCCESS */
+.success{
+  background:linear-gradient(90deg,#00ff66,#00aa44)!important;
+  box-shadow:0 0 20px #00ff66!important;
 }
 
 /* LOADING */
-.loading {
+.loading{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   background:#000;
@@ -157,7 +160,7 @@ header {
   flex-direction:column;
 }
 
-.spinner {
+.spinner{
   width:60px;
   height:60px;
   border:6px solid #111;
@@ -166,17 +169,10 @@ header {
   animation:spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  100% { transform:rotate(360deg); }
-}
+@keyframes spin{100%{transform:rotate(360deg);}}
 
 /* ICON */
-i {
-  width:20px;
-  height:20px;
-  margin-right:8px;
-  color:red;
-}
+i{width:20px;height:20px;color:red;margin-right:8px;}
 </style>
 </head>
 
@@ -184,7 +180,7 @@ i {
 
 <header>VETRIX</header>
 
-<!-- SWIPE TABS -->
+<!-- TABS -->
 <div class="tabs-wrapper">
   <div class="tabs">
     <div class="tab active" onclick="goTo(0)">⚡ Performance</div>
@@ -193,13 +189,14 @@ i {
   </div>
 </div>
 
-<!-- CARDS -->
+<!-- PING -->
 <div class="card">
   <div class="title"><i data-lucide="wifi"></i> Melhorar Ping</div>
   <div class="desc">Reduzir latência</div>
   <button class="btn" onclick="fakeLoad('Ping otimizado 🔥')">ATIVAR</button>
 </div>
 
+<!-- FPS -->
 <div class="card">
   <div class="title"><i data-lucide="monitor"></i> Aumentar FPS</div>
   <div class="desc">Escolha FPS</div>
@@ -210,10 +207,20 @@ i {
   </div>
 </div>
 
+<!-- OTIMIZAÇÃO INSANA -->
 <div class="card">
-  <div class="title"><i data-lucide="rocket"></i> Otimização</div>
-  <div class="desc">Limpeza completa</div>
-  <button class="btn" onclick="fakeLoad('Sistema otimizado 🚀')">OTIMIZAR</button>
+  <div class="title"><i data-lucide="rocket"></i> Otimização do Jogo</div>
+  <div class="desc" id="optDesc">Limpeza completa do sistema</div>
+
+  <div class="progress-bar">
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <div class="status" id="statusText"></div>
+
+  <button class="btn" id="optBtn" onclick="startOpt()">
+    OTIMIZAR AGORA
+  </button>
 </div>
 
 <!-- LOADING -->
@@ -223,33 +230,25 @@ i {
 </div>
 
 <script>
-let current = 0;
+let current=0;
 
-function goTo(index){
-  current = index;
-
-  if(index === 0) window.location.href = "index.html";
-  if(index === 1) window.location.href = "mira.html";
-  if(index === 2) window.location.href = "sensi.html";
+function goTo(i){
+  if(i===0) location.href="index.html";
+  if(i===1) location.href="mira.html";
+  if(i===2) location.href="sensi.html";
 }
 
 /* SWIPE */
-let startX = 0;
-
-document.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
+let startX=0;
+document.addEventListener("touchstart",e=>{
+  startX=e.touches[0].clientX;
 });
 
-document.addEventListener("touchend", e => {
-  let endX = e.changedTouches[0].clientX;
+document.addEventListener("touchend",e=>{
+  let endX=e.changedTouches[0].clientX;
 
-  if(startX - endX > 50){
-    if(current < 2) goTo(current + 1);
-  }
-
-  if(endX - startX > 50){
-    if(current > 0) goTo(current - 1);
-  }
+  if(startX-endX>50 && current<2) goTo(current+1);
+  if(endX-startX>50 && current>0) goTo(current-1);
 });
 
 /* FPS */
@@ -259,23 +258,65 @@ function fps(el){
   navigator.vibrate(40);
 }
 
-/* LOADING */
+/* PING */
 function fakeLoad(text){
   navigator.vibrate(100);
 
-  let l = document.getElementById("loading");
-  let msg = document.getElementById("msg");
+  let l=document.getElementById("loading");
+  let msg=document.getElementById("msg");
 
   l.style.display="flex";
 
-  setTimeout(()=>{ msg.innerText="Conectando..."; },800);
-  setTimeout(()=>{ msg.innerText="Aplicando..."; },1600);
-  setTimeout(()=>{ msg.innerText="Finalizando..."; },2400);
-
+  setTimeout(()=>msg.innerText="Conectando...",800);
+  setTimeout(()=>msg.innerText="Aplicando...",1600);
   setTimeout(()=>{
     l.style.display="none";
     alert(text);
-  },3200);
+  },2600);
+}
+
+/* OTIMIZAÇÃO INSANA */
+function startOpt(){
+  let btn=document.getElementById("optBtn");
+  let bar=document.getElementById("progress");
+  let status=document.getElementById("statusText");
+  let desc=document.getElementById("optDesc");
+
+  navigator.vibrate(100);
+
+  btn.innerHTML="⏳ OTIMIZANDO...";
+  btn.disabled=true;
+
+  let steps=[
+    "Limpando cache do sistema...",
+    "Removendo arquivos inúteis...",
+    "Otimizando memória RAM...",
+    "Finalizando otimização..."
+  ];
+
+  let p=0,i=0;
+
+  let inter=setInterval(()=>{
+    p+=25;
+    bar.style.width=p+"%";
+    status.innerText=steps[i];
+    i++;
+
+    if(p>=100){
+      clearInterval(inter);
+
+      setTimeout(()=>{
+        status.innerText="✔ Sistema otimizado";
+        status.style.color="#00ff66";
+
+        btn.innerHTML="✔ OTIMIZADO";
+        btn.classList.add("success");
+
+        desc.innerText="Desempenho máximo ativado 🚀";
+        navigator.vibrate([50,50,50]);
+      },500);
+    }
+  },900);
 }
 
 lucide.createIcons();
