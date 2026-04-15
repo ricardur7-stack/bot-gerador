@@ -9,23 +9,8 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:-apple-system,Arial;
-}
-
-body{
-  background:#000;
-  color:#fff;
-  animation:fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px);}
-  to{opacity:1;}
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,Arial;}
+body{background:#000;color:#fff;}
 
 /* HEADER */
 header{
@@ -34,25 +19,12 @@ header{
   font-size:26px;
   color:#ff1a1a;
   font-weight:bold;
-  animation:glow 2s infinite alternate;
+  text-shadow:0 0 20px red;
 }
 
-@keyframes glow{
-  from{ text-shadow:0 0 10px red; }
-  to{ text-shadow:0 0 25px red; }
-}
-
-/* SWIPE */
-.tabs-wrapper{
-  overflow-x:auto;
-  padding:10px;
-}
-
-.tabs{
-  display:flex;
-  gap:10px;
-}
-
+/* TABS */
+.tabs-wrapper{overflow-x:auto;padding:10px;}
+.tabs{display:flex;gap:10px;}
 .tab{
   min-width:140px;
   padding:12px;
@@ -62,7 +34,6 @@ header{
   text-align:center;
   color:#777;
 }
-
 .tab.active{
   color:#ff2a2a;
   border:1px solid red;
@@ -76,12 +47,6 @@ header{
   border-radius:20px;
   background:#050505;
   border:1px solid #111;
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:scale(1.03);
-  box-shadow:0 0 25px rgba(255,0,0,0.3);
 }
 
 /* TEXT */
@@ -101,7 +66,29 @@ header{
   box-shadow:0 0 20px rgba(255,0,0,0.6);
 }
 
-.btn:active{transform:scale(0.93);}
+/* PROGRESS */
+.progress-bar{
+  width:100%;
+  height:6px;
+  background:#222;
+  border-radius:10px;
+  margin:8px 0;
+  overflow:hidden;
+}
+.progress{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#ff0000,#ff6600);
+}
+
+/* STATUS */
+.status{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:8px;
+  color:#ff6600;
+}
 
 /* FPS */
 .fps{display:flex;gap:10px;}
@@ -119,60 +106,8 @@ header{
   box-shadow:0 0 15px red;
 }
 
-/* PROGRESS */
-.progress-bar{
-  width:100%;
-  height:8px;
-  background:#222;
-  border-radius:10px;
-  margin:10px 0;
-  overflow:hidden;
-}
-
-.progress{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,#ff0000,#ff6600);
-}
-
-/* STATUS */
-.status{
-  color:#ff6600;
-  font-size:14px;
-  margin-bottom:10px;
-}
-
-/* SUCCESS */
-.success{
-  background:linear-gradient(90deg,#00ff66,#00aa44)!important;
-  box-shadow:0 0 20px #00ff66!important;
-}
-
-/* LOADING */
-.loading{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:#000;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-}
-
-.spinner{
-  width:60px;
-  height:60px;
-  border:6px solid #111;
-  border-top:6px solid red;
-  border-radius:50%;
-  animation:spin 0.8s linear infinite;
-}
-
-@keyframes spin{100%{transform:rotate(360deg);}}
-
 /* ICON */
-i{width:20px;height:20px;color:red;margin-right:8px;}
+i{width:20px;height:20px;margin-right:8px;color:red;}
 </style>
 </head>
 
@@ -180,12 +115,11 @@ i{width:20px;height:20px;color:red;margin-right:8px;}
 
 <header>VETRIX</header>
 
-<!-- TABS -->
 <div class="tabs-wrapper">
   <div class="tabs">
-    <div class="tab active" onclick="goTo(0)">⚡ Performance</div>
-    <div class="tab" onclick="goTo(1)">🎯 Mira</div>
-    <div class="tab" onclick="goTo(2)">✨ Sensi</div>
+    <div class="tab active">⚡ Performance</div>
+    <div class="tab">🎯 Mira</div>
+    <div class="tab">✨ Sensi</div>
   </div>
 </div>
 
@@ -193,130 +127,133 @@ i{width:20px;height:20px;color:red;margin-right:8px;}
 <div class="card">
   <div class="title"><i data-lucide="wifi"></i> Melhorar Ping</div>
   <div class="desc">Reduzir latência</div>
-  <button class="btn" onclick="fakeLoad('Ping otimizado 🔥')">ATIVAR</button>
+
+  <div id="pingBox" style="display:none;">
+    <div class="progress-bar">
+      <div class="progress" id="pingBar"></div>
+    </div>
+    <div class="status">
+      <span id="pingStatus"></span>
+      <span id="pingPercent">0%</span>
+    </div>
+  </div>
+
+  <button class="btn" onclick="startPing()">ATIVAR</button>
 </div>
 
 <!-- FPS -->
 <div class="card">
   <div class="title"><i data-lucide="monitor"></i> Aumentar FPS</div>
   <div class="desc">Escolha FPS</div>
+
   <div class="fps">
-    <div onclick="fps(this)">60</div>
-    <div onclick="fps(this)">120</div>
-    <div onclick="fps(this)">240</div>
+    <div onclick="startFPS(this, '60')">60</div>
+    <div onclick="startFPS(this, '120')">120</div>
+    <div onclick="startFPS(this, '240')">240</div>
+  </div>
+
+  <div id="fpsBox" style="display:none;">
+    <div class="progress-bar">
+      <div class="progress" id="fpsBar"></div>
+    </div>
+    <div class="status">
+      <span id="fpsStatus"></span>
+      <span id="fpsPercent">0%</span>
+    </div>
   </div>
 </div>
 
-<!-- OTIMIZAÇÃO INSANA -->
+<!-- OTIMIZAÇÃO -->
 <div class="card">
   <div class="title"><i data-lucide="rocket"></i> Otimização do Jogo</div>
-  <div class="desc" id="optDesc">Limpeza completa do sistema</div>
+  <div class="desc" id="optDesc">Limpeza completa</div>
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
+  <div id="progressBox" style="display:none;">
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div class="status">
+      <span id="statusText"></span>
+      <span id="percent">0%</span>
+    </div>
   </div>
 
-  <div class="status" id="statusText"></div>
-
-  <button class="btn" id="optBtn" onclick="startOpt()">
-    OTIMIZAR AGORA
-  </button>
-</div>
-
-<!-- LOADING -->
-<div class="loading" id="loading">
-  <div class="spinner"></div>
-  <p id="msg">Inicializando...</p>
+  <button class="btn" onclick="startOpt()">OTIMIZAR</button>
 </div>
 
 <script>
-let current=0;
+/* FUNÇÃO PADRÃO */
+function runFake(bar, percent, status, steps, callback){
+  let p = 0;
 
-function goTo(i){
-  if(i===0) location.href="index.html";
-  if(i===1) location.href="mira.html";
-  if(i===2) location.href="sensi.html";
-}
+  let i = setInterval(()=>{
+    p += Math.floor(Math.random()*7)+3;
+    if(p > 100) p = 100;
 
-/* SWIPE */
-let startX=0;
-document.addEventListener("touchstart",e=>{
-  startX=e.touches[0].clientX;
-});
+    bar.style.width = p+"%";
+    percent.innerText = p+"%";
 
-document.addEventListener("touchend",e=>{
-  let endX=e.changedTouches[0].clientX;
+    if(p < 30) status.innerText = steps[0];
+    else if(p < 60) status.innerText = steps[1];
+    else if(p < 90) status.innerText = steps[2];
+    else status.innerText = steps[3];
 
-  if(startX-endX>50 && current<2) goTo(current+1);
-  if(endX-startX>50 && current>0) goTo(current-1);
-});
-
-/* FPS */
-function fps(el){
-  document.querySelectorAll('.fps div').forEach(e=>e.classList.remove('active'));
-  el.classList.add('active');
-  navigator.vibrate(40);
+    if(p === 100){
+      clearInterval(i);
+      setTimeout(callback,500);
+    }
+  },200);
 }
 
 /* PING */
-function fakeLoad(text){
-  navigator.vibrate(100);
+function startPing(){
+  document.getElementById("pingBox").style.display="block";
 
-  let l=document.getElementById("loading");
-  let msg=document.getElementById("msg");
-
-  l.style.display="flex";
-
-  setTimeout(()=>msg.innerText="Conectando...",800);
-  setTimeout(()=>msg.innerText="Aplicando...",1600);
-  setTimeout(()=>{
-    l.style.display="none";
-    alert(text);
-  },2600);
+  runFake(
+    document.getElementById("pingBar"),
+    document.getElementById("pingPercent"),
+    document.getElementById("pingStatus"),
+    ["Conectando...","Estabilizando...","Reduzindo ping...","Finalizando..."],
+    ()=>{
+      document.getElementById("pingStatus").innerText="✔ Ping otimizado";
+      document.getElementById("pingStatus").style.color="#00ff66";
+    }
+  );
 }
 
-/* OTIMIZAÇÃO INSANA */
-function startOpt(){
-  let btn=document.getElementById("optBtn");
-  let bar=document.getElementById("progress");
-  let status=document.getElementById("statusText");
-  let desc=document.getElementById("optDesc");
+/* FPS */
+function startFPS(el, value){
+  document.querySelectorAll('.fps div').forEach(e=>e.classList.remove('active'));
+  el.classList.add('active');
 
-  navigator.vibrate(100);
+  document.getElementById("fpsBox").style.display="block";
 
-  btn.innerHTML="⏳ OTIMIZANDO...";
-  btn.disabled=true;
-
-  let steps=[
-    "Limpando cache do sistema...",
-    "Removendo arquivos inúteis...",
-    "Otimizando memória RAM...",
-    "Finalizando otimização..."
-  ];
-
-  let p=0,i=0;
-
-  let inter=setInterval(()=>{
-    p+=25;
-    bar.style.width=p+"%";
-    status.innerText=steps[i];
-    i++;
-
-    if(p>=100){
-      clearInterval(inter);
-
-      setTimeout(()=>{
-        status.innerText="✔ Sistema otimizado";
-        status.style.color="#00ff66";
-
-        btn.innerHTML="✔ OTIMIZADO";
-        btn.classList.add("success");
-
-        desc.innerText="Desempenho máximo ativado 🚀";
-        navigator.vibrate([50,50,50]);
-      },500);
+  runFake(
+    document.getElementById("fpsBar"),
+    document.getElementById("fpsPercent"),
+    document.getElementById("fpsStatus"),
+    ["Aplicando FPS...","Ajustando gráficos...","Estabilizando...","Finalizando..."],
+    ()=>{
+      document.getElementById("fpsStatus").innerText="✔ "+value+" FPS ativado";
+      document.getElementById("fpsStatus").style.color="#00ff66";
     }
-  },900);
+  );
+}
+
+/* OTIMIZAÇÃO */
+function startOpt(){
+  document.getElementById("progressBox").style.display="block";
+
+  runFake(
+    document.getElementById("progress"),
+    document.getElementById("percent"),
+    document.getElementById("statusText"),
+    ["Limpando cache...","Removendo arquivos...","Otimizando RAM...","Finalizando..."],
+    ()=>{
+      document.getElementById("statusText").innerText="✔ Sistema otimizado";
+      document.getElementById("statusText").style.color="#00ff66";
+    }
+  );
 }
 
 lucide.createIcons();
