@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>VETRIX</title>
 
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -26,30 +25,28 @@ header{
 .tabs-wrapper{overflow-x:auto;padding:10px;}
 .tabs{display:flex;gap:10px;}
 .tab{
-  min-width:140px;
+  min-width:120px;
   padding:12px;
-  border-radius:20px;
+  border-radius:18px;
   background:#0a0a0a;
   border:1px solid #111;
   text-align:center;
   color:#777;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
 }
 .tab.active{
   color:#ff2a2a;
   border:1px solid red;
   box-shadow:0 0 20px rgba(255,0,0,0.5);
 }
+.tab i{width:22px;height:22px;color:#ff2a2a;font-size:22px;}
+.tab span{font-size:13px;}
 
 /* CARD */
-.card{
-  margin:15px;
-  padding:20px;
-  border-radius:20px;
-  background:#050505;
-  border:1px solid #111;
-}
-
-/* TEXT */
+.card{margin:15px;padding:20px;border-radius:20px;background:#050505;border:1px solid #111;}
 .title{font-size:18px;margin-bottom:5px;}
 .desc{color:#888;font-size:14px;margin-bottom:10px;}
 
@@ -60,54 +57,25 @@ header{
   border-radius:15px;
   border:none;
   font-weight:bold;
-  font-size:16px;
   background:linear-gradient(90deg,#ff0000,#660000);
   color:#fff;
-  box-shadow:0 0 20px rgba(255,0,0,0.6);
 }
 
 /* PROGRESS */
-.progress-bar{
-  width:100%;
-  height:6px;
-  background:#222;
-  border-radius:10px;
-  margin:8px 0;
-  overflow:hidden;
-}
-.progress{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,#ff0000,#ff6600);
-}
+.progress-bar{height:6px;background:#222;border-radius:10px;margin:8px 0;overflow:hidden;}
+.progress{width:0%;height:100%;background:linear-gradient(90deg,#ff0000,#ff6600);}
 
-/* STATUS */
-.status{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-bottom:8px;
-  color:#ff6600;
-}
+.status{display:flex;justify-content:space-between;font-size:13px;color:#ff6600;}
 
-/* FPS */
 .fps{display:flex;gap:10px;}
 .fps div{
-  flex:1;
-  padding:15px;
-  border-radius:15px;
-  border:1px solid #222;
-  text-align:center;
-  color:#aaa;
+  flex:1;padding:15px;border-radius:15px;border:1px solid #222;text-align:center;color:#aaa;
 }
 .fps div.active{
-  border:1px solid red;
-  color:red;
-  box-shadow:0 0 15px red;
+  border:1px solid red;color:red;box-shadow:0 0 15px red;
 }
 
-/* ICON */
-i{width:20px;height:20px;margin-right:8px;color:red;}
+i{margin-right:5px;color:red;}
 </style>
 </head>
 
@@ -117,142 +85,108 @@ i{width:20px;height:20px;margin-right:8px;color:red;}
 
 <div class="tabs-wrapper">
   <div class="tabs">
-    <div class="tab active">⚡ Performance</div>
-    <div class="tab">🎯 Mira</div>
-    <div class="tab">✨ Sensi</div>
+    <div class="tab active" onclick="go('index.html')">
+      <i data-lucide="zap"></i>
+      <span>Performance</span>
+    </div>
+    <div class="tab" onclick="go('mira.html')">
+      <i data-lucide="crosshair"></i>
+      <span>Mira</span>
+    </div>
+    <div class="tab" onclick="go('sensi.html')">
+      <i data-lucide="sparkles"></i>
+      <span>Sensi</span>
+    </div>
   </div>
 </div>
 
 <!-- PING -->
 <div class="card">
-  <div class="title"><i data-lucide="wifi"></i> Melhorar Ping</div>
-  <div class="desc">Reduzir latência</div>
-
+  <div class="title">Melhorar Ping</div>
   <div id="pingBox" style="display:none;">
-    <div class="progress-bar">
-      <div class="progress" id="pingBar"></div>
-    </div>
-    <div class="status">
-      <span id="pingStatus"></span>
-      <span id="pingPercent">0%</span>
-    </div>
+    <div class="progress-bar"><div class="progress" id="pingBar"></div></div>
+    <div class="status"><span id="pingStatus"></span><span id="pingPercent">0%</span></div>
   </div>
-
   <button class="btn" onclick="startPing()">ATIVAR</button>
 </div>
 
 <!-- FPS -->
 <div class="card">
-  <div class="title"><i data-lucide="monitor"></i> Aumentar FPS</div>
-  <div class="desc">Escolha FPS</div>
-
+  <div class="title">Aumentar FPS</div>
   <div class="fps">
-    <div onclick="startFPS(this, '60')">60</div>
-    <div onclick="startFPS(this, '120')">120</div>
-    <div onclick="startFPS(this, '240')">240</div>
+    <div onclick="startFPS(this,60)">60</div>
+    <div onclick="startFPS(this,120)">120</div>
+    <div onclick="startFPS(this,240)">240</div>
   </div>
 
   <div id="fpsBox" style="display:none;">
-    <div class="progress-bar">
-      <div class="progress" id="fpsBar"></div>
-    </div>
-    <div class="status">
-      <span id="fpsStatus"></span>
-      <span id="fpsPercent">0%</span>
-    </div>
+    <div class="progress-bar"><div class="progress" id="fpsBar"></div></div>
+    <div class="status"><span id="fpsStatus"></span><span id="fpsPercent">0%</span></div>
   </div>
 </div>
 
 <!-- OTIMIZAÇÃO -->
 <div class="card">
-  <div class="title"><i data-lucide="rocket"></i> Otimização do Jogo</div>
-  <div class="desc" id="optDesc">Limpeza completa</div>
+  <div class="title">Otimização</div>
 
-  <div id="progressBox" style="display:none;">
-    <div class="progress-bar">
-      <div class="progress" id="progress"></div>
-    </div>
-    <div class="status">
-      <span id="statusText"></span>
-      <span id="percent">0%</span>
-    </div>
+  <div id="optBox" style="display:none;">
+    <div class="progress-bar"><div class="progress" id="optBar"></div></div>
+    <div class="status"><span id="optStatus"></span><span id="optPercent">0%</span></div>
   </div>
 
   <button class="btn" onclick="startOpt()">OTIMIZAR</button>
 </div>
 
 <script>
-/* FUNÇÃO PADRÃO */
-function runFake(bar, percent, status, steps, callback){
-  let p = 0;
+function go(p){location.href=p;}
 
-  let i = setInterval(()=>{
-    p += Math.floor(Math.random()*7)+3;
-    if(p > 100) p = 100;
+function run(bar,percent,status,doneText){
+  let p=0;
+  let i=setInterval(()=>{
+    p+=Math.floor(Math.random()*7)+3;
+    if(p>100)p=100;
 
-    bar.style.width = p+"%";
-    percent.innerText = p+"%";
+    bar.style.width=p+"%";
+    percent.innerText=p+"%";
 
-    if(p < 30) status.innerText = steps[0];
-    else if(p < 60) status.innerText = steps[1];
-    else if(p < 90) status.innerText = steps[2];
-    else status.innerText = steps[3];
-
-    if(p === 100){
+    if(p===100){
       clearInterval(i);
-      setTimeout(callback,500);
+      status.innerText=doneText;
+      status.style.color="#00ff66";
     }
   },200);
 }
 
-/* PING */
 function startPing(){
   document.getElementById("pingBox").style.display="block";
-
-  runFake(
+  run(
     document.getElementById("pingBar"),
     document.getElementById("pingPercent"),
     document.getElementById("pingStatus"),
-    ["Conectando...","Estabilizando...","Reduzindo ping...","Finalizando..."],
-    ()=>{
-      document.getElementById("pingStatus").innerText="✔ Ping otimizado";
-      document.getElementById("pingStatus").style.color="#00ff66";
-    }
+    "✔ Ping otimizado"
   );
 }
 
-/* FPS */
-function startFPS(el, value){
+function startFPS(el,val){
   document.querySelectorAll('.fps div').forEach(e=>e.classList.remove('active'));
   el.classList.add('active');
 
   document.getElementById("fpsBox").style.display="block";
-
-  runFake(
+  run(
     document.getElementById("fpsBar"),
     document.getElementById("fpsPercent"),
     document.getElementById("fpsStatus"),
-    ["Aplicando FPS...","Ajustando gráficos...","Estabilizando...","Finalizando..."],
-    ()=>{
-      document.getElementById("fpsStatus").innerText="✔ "+value+" FPS ativado";
-      document.getElementById("fpsStatus").style.color="#00ff66";
-    }
+    "✔ "+val+" FPS ativado"
   );
 }
 
-/* OTIMIZAÇÃO */
 function startOpt(){
-  document.getElementById("progressBox").style.display="block";
-
-  runFake(
-    document.getElementById("progress"),
-    document.getElementById("percent"),
-    document.getElementById("statusText"),
-    ["Limpando cache...","Removendo arquivos...","Otimizando RAM...","Finalizando..."],
-    ()=>{
-      document.getElementById("statusText").innerText="✔ Sistema otimizado";
-      document.getElementById("statusText").style.color="#00ff66";
-    }
+  document.getElementById("optBox").style.display="block";
+  run(
+    document.getElementById("optBar"),
+    document.getElementById("optPercent"),
+    document.getElementById("optStatus"),
+    "✔ Sistema otimizado"
   );
 }
 
