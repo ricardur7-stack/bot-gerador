@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>VETRIX</title>
 
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -12,39 +11,31 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,Arial;}
 body{background:#000;color:#fff;}
 
-/* HEADER */
 header{
   text-align:center;
   padding:20px;
   font-size:26px;
   color:#ff1a1a;
-  font-weight:bold;
   text-shadow:0 0 20px red;
 }
 
 /* TABS */
-.tabs-wrapper{overflow-x:auto;padding:10px;}
-.tabs{display:flex;gap:10px;}
+.tabs{display:flex;gap:10px;padding:10px;}
 .tab{
-  min-width:120px;
+  flex:1;
   padding:12px;
   border-radius:18px;
   background:#0a0a0a;
-  border:1px solid #111;
   text-align:center;
   color:#777;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:5px;
 }
 .tab.active{
-  color:#ff2a2a;
-  border:1px solid red;
-  box-shadow:0 0 20px rgba(255,0,0,0.5);
+  color:red;
+  box-shadow:0 0 20px red;
 }
-.tab i{width:22px;height:22px;color:#ff2a2a;}
-.tab span{font-size:13px;}
 
 /* CARD */
 .card{
@@ -60,10 +51,12 @@ header{
   margin-bottom:5px;
   display:flex;
   align-items:center;
+  gap:6px;
 }
 
 .title i{
-  margin-right:8px;
+  width:18px;
+  height:18px;
   color:red;
 }
 
@@ -84,28 +77,6 @@ header{
   color:#fff;
 }
 
-/* PROGRESS */
-.progress-bar{
-  height:6px;
-  background:#222;
-  border-radius:10px;
-  margin:8px 0;
-  overflow:hidden;
-}
-.progress{
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,#ff0000,#ff6600);
-}
-
-.status{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  color:#ff6600;
-  margin-bottom:10px;
-}
-
 /* FPS */
 .fps{display:flex;gap:10px;}
 .fps div{
@@ -115,11 +86,33 @@ header{
   border:1px solid #222;
   text-align:center;
   color:#aaa;
+  cursor:pointer;
 }
 .fps div.active{
   border:1px solid red;
   color:red;
   box-shadow:0 0 15px red;
+}
+
+/* PROGRESS */
+.progress-bar{
+  height:6px;
+  background:#222;
+  border-radius:10px;
+  margin:10px 0;
+  overflow:hidden;
+}
+.progress{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#ff0000,#ff6600);
+}
+
+.status{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  color:#ff6600;
 }
 </style>
 </head>
@@ -128,27 +121,24 @@ header{
 
 <header>VETRIX</header>
 
-<!-- TABS -->
-<div class="tabs-wrapper">
-  <div class="tabs">
-    <div class="tab active" onclick="go('index.html')">
-      <i data-lucide="zap"></i>
-      <span>Performance</span>
-    </div>
-    <div class="tab" onclick="go('mira.html')">
-      <i data-lucide="crosshair"></i>
-      <span>Mira</span>
-    </div>
-    <div class="tab" onclick="go('sensi.html')">
-      <i data-lucide="sparkles"></i>
-      <span>Sensi</span>
-    </div>
+<div class="tabs">
+  <div class="tab active">
+    <i data-lucide="zap"></i>
+    <span>Performance</span>
+  </div>
+  <div class="tab" onclick="go('mira.html')">
+    <i data-lucide="crosshair"></i>
+    <span>Mira</span>
+  </div>
+  <div class="tab" onclick="go('sensi.html')">
+    <i data-lucide="sparkles"></i>
+    <span>Sensi</span>
   </div>
 </div>
 
 <!-- PING -->
 <div class="card">
-  <div class="title"><i data-lucide="wifi"></i>Melhorar Ping</div>
+  <div class="title"><i data-lucide="wifi"></i> Melhorar Ping</div>
   <div class="desc">Reduz a latência e melhora a conexão durante a partida.</div>
 
   <div id="pingBox" style="display:none;">
@@ -161,8 +151,8 @@ header{
 
 <!-- FPS -->
 <div class="card">
-  <div class="title"><i data-lucide="monitor"></i>Aumentar FPS</div>
-  <div class="desc">Aumenta a taxa de quadros e deixa o jogo mais fluido.</div>
+  <div class="title"><i data-lucide="monitor"></i> Aumentar FPS</div>
+  <div class="desc">Aumenta a taxa de quadros e melhora a fluidez.</div>
 
   <div class="fps">
     <div onclick="startFPS(this,60)">60</div>
@@ -178,8 +168,8 @@ header{
 
 <!-- OTIMIZAÇÃO -->
 <div class="card">
-  <div class="title"><i data-lucide="rocket"></i>Otimização do Sistema</div>
-  <div class="desc">Limpeza profunda e melhoria de desempenho geral.</div>
+  <div class="title"><i data-lucide="rocket"></i> Otimização do Sistema</div>
+  <div class="desc">Limpeza profunda e melhoria geral do desempenho.</div>
 
   <div id="optBox" style="display:none;">
     <div class="progress-bar"><div class="progress" id="optBar"></div></div>
@@ -192,8 +182,9 @@ header{
 <script>
 function go(p){location.href=p;}
 
-function run(bar,percent,status,doneText){
+function run(bar,percent,status,done){
   let p=0;
+
   let i=setInterval(()=>{
     p+=Math.floor(Math.random()*7)+3;
     if(p>100)p=100;
@@ -203,7 +194,7 @@ function run(bar,percent,status,doneText){
 
     if(p===100){
       clearInterval(i);
-      status.innerText=doneText;
+      status.innerText=done;
       status.style.color="#00ff66";
     }
   },200);
@@ -211,6 +202,7 @@ function run(bar,percent,status,doneText){
 
 function startPing(){
   document.getElementById("pingBox").style.display="block";
+
   run(
     document.getElementById("pingBar"),
     document.getElementById("pingPercent"),
@@ -224,6 +216,7 @@ function startFPS(el,val){
   el.classList.add('active');
 
   document.getElementById("fpsBox").style.display="block";
+
   run(
     document.getElementById("fpsBar"),
     document.getElementById("fpsPercent"),
@@ -234,12 +227,38 @@ function startFPS(el,val){
 
 function startOpt(){
   document.getElementById("optBox").style.display="block";
-  run(
-    document.getElementById("optBar"),
-    document.getElementById("optPercent"),
-    document.getElementById("optStatus"),
-    "✔ Sistema otimizado"
-  );
+
+  let status=document.getElementById("optStatus");
+
+  let p=0;
+  let bar=document.getElementById("optBar");
+  let percent=document.getElementById("optPercent");
+
+  let steps=[
+    "Limpando cache...",
+    "Removendo arquivos...",
+    "Otimizando sistema...",
+    "Finalizando..."
+  ];
+
+  let i=setInterval(()=>{
+    p+=Math.floor(Math.random()*7)+3;
+    if(p>100)p=100;
+
+    bar.style.width=p+"%";
+    percent.innerText=p+"%";
+
+    if(p<30) status.innerText=steps[0];
+    else if(p<60) status.innerText=steps[1];
+    else if(p<90) status.innerText=steps[2];
+    else status.innerText=steps[3];
+
+    if(p===100){
+      clearInterval(i);
+      status.innerText="✔ Sistema otimizado";
+      status.style.color="#00ff66";
+    }
+  },200);
 }
 
 lucide.createIcons();
